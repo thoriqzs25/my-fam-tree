@@ -7,9 +7,15 @@ const Auth = ({ onAuthSuccess }) => {
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    const user = data.find(
-      (person) => person.data["first name"].toLowerCase().includes(name.toLowerCase()) && person.data.birthday.toString() === birthYear
+    let user = data.find(
+      (person) => person.data["first name"].toLowerCase() === name.toLowerCase() && person.data.birthday.toString() === birthYear
     );
+
+    if (!user) {
+      user = data.find(
+        (person) => person.data["first name"].toLowerCase().includes(name.toLowerCase()) && person.data.birthday.toString() === birthYear
+      );
+    }
 
     if (user) {
       setError("");
