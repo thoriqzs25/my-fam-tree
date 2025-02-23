@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import f3 from "family-chart";
 import "family-chart/styles/family-chart.css";
-import data from "../data.json"
+import data from "../../data.json"
 
 const FamilyTree = () => {
   const cont = useRef(null);
