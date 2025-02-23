@@ -11,7 +11,20 @@ const FamilyTree = () => {
   useEffect(() => {
     if (!cont.current) return;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryName = urlParams.get("name");
+
     const create = (data) => {
+      if (queryName) {
+        const index = data.findIndex(person => person.data["first name"] === queryName);
+
+        console.log(index, "index")
+        if (index > 0) {
+          const person = data.splice(index, 1)[0];
+          data.unshift(person);
+        }
+      }
+
       const f3Chart = f3
         .createChart("#FamilyChart", data)
         .setTransitionTime(1000)
