@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import f3 from "family-chart";
 import "family-chart/styles/family-chart.css";
-import data from "../../data.json"
+import Auth from "./Auth";
 
-const FamilyTree = () => {
+const FamilyTree = ({ data }) => {
+  const [currUser, setUser] = useState(null);
   const cont = useRef(null);
 
   useEffect(() => {
@@ -16,9 +17,10 @@ const FamilyTree = () => {
 
     const create = (data) => {
       if (queryName) {
-        const index = data.findIndex(person => person.data["first name"] === queryName);
+        const index = data.findIndex(
+          (person) => person.data["first name"] === queryName
+        );
 
-        console.log(index, "index")
         if (index > 0) {
           const person = data.splice(index, 1)[0];
           data.unshift(person);
@@ -60,11 +62,24 @@ const FamilyTree = () => {
     };
 
     create(data);
-  }, []);
+  }, [currUser]);
 
   return (
     <div className="w-full h-full">
-      <div className="f3 w-full h-full text-white" id="FamilyChart" ref={cont}></div>
+      {currUser === null ? (
+        <Auth
+          onAuthSuccess={(user) => {
+            // console.log("user", user, user.data["first name"]);
+            setUser(user);
+          }}
+        />
+      ) : (
+        <div
+          className="f3 w-full h-full text-white"
+          id="FamilyChart"
+          ref={cont}
+        ></div>
+      )}
     </div>
   );
 };

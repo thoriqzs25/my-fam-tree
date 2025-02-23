@@ -6,6 +6,9 @@ import FamilyTree from "./FamilyTree";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import data from "../../data.json";
+import Auth from "./Auth";
+import { useState } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAToz2BC4Vqeb229ZDp9Z1U04c1vS1poSk",
@@ -54,8 +57,8 @@ export default function Home() {
         {/* <button onClick={signIn} className="p-2 bg-blue-500 text-white rounded">
           Sign in with Google
         </button> */}
-
-        <FamilyTree />
+        
+          <FamilyTree data={data} />
       </main>
     </div>
   );
