@@ -29,7 +29,6 @@ const FamilyTree = ({ data }) => {
               .includes(queryName.toLowerCase())
           );
         }
-        console.log(index, "name", queryName);
 
         if (index > 0) {
           const person = data.splice(index, 1)[0];
