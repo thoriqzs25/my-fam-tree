@@ -57,8 +57,8 @@ export default function Home() {
         {/* <button onClick={signIn} className="p-2 bg-blue-500 text-white rounded">
           Sign in with Google
         </button> */}
-        
-          <FamilyTree data={data} />
+        <p className="absolute left-4 top-4">v0.0.1</p>
+        <FamilyTree data={data} />
       </main>
     </div>
   );

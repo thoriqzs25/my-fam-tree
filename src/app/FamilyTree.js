@@ -17,9 +17,19 @@ const FamilyTree = ({ data }) => {
 
     const create = (data) => {
       if (queryName) {
-        const index = data.findIndex(
-          (person) => person.data["first name"] === queryName
+        let index = data.findIndex(
+          (person) =>
+            person.data["first name"].toLowerCase() === queryName.toLowerCase()
         );
+
+        if (index == -1) {
+          index = data.findIndex((person) =>
+            person.data["first name"]
+              .toLowerCase()
+              .includes(queryName.toLowerCase())
+          );
+        }
+        console.log(index, "name", queryName);
 
         if (index > 0) {
           const person = data.splice(index, 1)[0];
