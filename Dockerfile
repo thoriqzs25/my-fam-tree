@@ -4,29 +4,29 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json and package-lock.json first (for better caching)
 COPY package.json package-lock.json ./
-RUN npm install
 
-# Copy the rest of the application
+# Install dependencies and cache them
+RUN npm ci
+
+# Copy only necessary files (avoiding unnecessary invalidation of cache)
 COPY . .
 
 # Build the application
 RUN npm run build
 
-# Use official Node.js image for production
+# Use a lightweight production image
 FROM node:18-alpine AS runner
 
 # Set working directory
 WORKDIR /app
 
-# Copy built files from builder stage
+# Copy only necessary built files
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./
-
-# Install production dependencies
-RUN npm install --omit=dev
+COPY --from=builder /app/node_modules ./node_modules
 
 # Expose application port
 EXPOSE 3000
