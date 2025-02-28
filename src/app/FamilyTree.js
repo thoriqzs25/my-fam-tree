@@ -81,6 +81,7 @@ const FamilyTree = ({ data }) => {
             // console.log("user", user, user.data["first name"]);
             setUser(user);
           }}
+          data={data}
         />
       ) : (
         <div

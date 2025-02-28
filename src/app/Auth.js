@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import data from "../../data.json";
 
-const Auth = ({ onAuthSuccess }) => {
+const Auth = ({ onAuthSuccess, data }) => {
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [error, setError] = useState("");
