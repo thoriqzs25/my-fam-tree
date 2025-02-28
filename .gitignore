@@ -11,6 +11,7 @@
 !.yarn/versions
 
 data.json
+build.sh
 
 # testing
 /coverage
