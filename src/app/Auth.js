@@ -16,14 +16,14 @@ const Auth = ({ onAuthSuccess }) => {
   }, [])
 
   const logAttempt = async (username, attempt) => {
-    fetch(
-      `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
-        username
-      )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
-    )
-      .then((res) => res.text())
-      .then((data) => console.log("Logging Attempt: ", data))
-      .catch((err) => console.error("Logging Error: ", err));
+    // fetch(
+    //   `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
+    //     username
+    //   )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
+    // )
+    //   .then((res) => res.text())
+    //   .then((data) => console.log("Logging Attempt: ", data))
+    //   .catch((err) => console.error("Logging Error: ", err));
   };
 
   const handleLogin = async () => {
@@ -64,7 +64,7 @@ const Auth = ({ onAuthSuccess }) => {
     <div className="w-full h-full flex flex-col items-center justify-center text-white">
       <h2 className="mb-2">Autentikasi</h2>
       <p className="mb-4">
-        "masukin nama yang didaftarin atau tanya kakak Gita"
+        "Masukin nama panggilan dan tahun kelahiran Anda"
       </p>
       <input
         type="text"
