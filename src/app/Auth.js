@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import data from "../../data.json";
 
 const Auth = ({ onAuthSuccess }) => {
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [error, setError] = useState("");
+  const [ip, setIp] = useState("Unknown IP")
+  const [concurrentAttempt, setAttempt] = useState(1)
 
-  const handleLogin = () => {
+  useEffect(() => {
+    fetch("https://api.ipify.org?format=json")
+    .then((res) => res.json())
+    .then((data) => setIp(data.ip))
+    .catch(() => setIp("Failed to get IP"));
+  }, [])
+
+  const logAttempt = async (username, attempt) => {
+    fetch(
+      `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
+        username
+      )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
+    )
+      .then((res) => res.text())
+      .then((data) => console.log("Logging Attempt: ", data))
+      .catch((err) => console.error("Logging Error: ", err));
+  };
+
+  const handleLogin = async () => {
     let user = data.find(
       (person) =>
         person.data["first name"].toLowerCase() === name.toLowerCase() &&
@@ -24,10 +44,19 @@ const Auth = ({ onAuthSuccess }) => {
     }
 
     if (user) {
+      const attemptInfo = `SUCCESS ${concurrentAttempt}`
       setError("");
+
       onAuthSuccess(user);
+      logAttempt(user.data["first name"], attemptInfo);
     } else {
+      const inputAttempt = `${name} - ${birthYear}`
+      const attemptInfo = `FAILED ${concurrentAttempt}`
+
       setError("Invalid name or birth year. Please try again.");
+      await logAttempt(inputAttempt, attemptInfo);
+
+      setAttempt(concurrentAttempt + 1)
     }
   };
 
