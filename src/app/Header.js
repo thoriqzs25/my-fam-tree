@@ -10,7 +10,7 @@ const Header = ({ isCircle, setCircle }) => {
         className={`fixed w-full top-0 z-50 transition-transform duration-300 ${
           isVisible
             ? "translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
+            : "-translate-y-full opacity-100"
         }`}
       >
         <div className="hidden sm:block">
@@ -41,7 +41,7 @@ const Header = ({ isCircle, setCircle }) => {
               : "bg-gray-600 text-white opacity-70 hover:opacity-100"
           }`}
         >
-          {!isCircle ? "⬛ Square" : "⚫ Circle"}
+          {isCircle ? "⬛ Square" : "⚫ Circle"}
         </button>
       </div>
     </>

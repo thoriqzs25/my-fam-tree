@@ -4,10 +4,25 @@ import React, { useEffect, useRef, useState } from "react";
 import f3 from "family-chart";
 import Auth from "./Auth";
 
-const FamilyTree = ({ data, isCircle }) => {
+const FamilyTree = ({ data, isCircle, cardRef }) => {
   const [currUser, setUser] = useState(null);
+
   const cont = useRef(null);
+  const chartRef = useRef(null);
   const useAuth = false;
+
+  // const updateStyle = (circle) => {
+  //   const cards = document.querySelectorAll(".card-inner");
+  //   cards.forEach((card) => {
+  //     if (circle) {
+  //       card.classList.remove("card-image-rect");
+  //       card.classList.add("card-image-circle");
+  //     } else {
+  //       card.classList.remove("card-image-circle");
+  //       card.classList.add("card-image-rect");
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     if (!cont.current) return;
@@ -36,9 +51,9 @@ const FamilyTree = ({ data, isCircle }) => {
         }
       }
 
-      const existingChart = document.querySelector("#FamilyChart")
+      const existingChart = document.querySelector("#FamilyChart");
       if (existingChart) {
-        existingChart.innerHTML = ""
+        existingChart.innerHTML = "";
       }
 
       const f3Chart = f3
@@ -58,22 +73,30 @@ const FamilyTree = ({ data, isCircle }) => {
         .setStyle(imageStyle)
         .setOnHoverPathToMain();
 
-      const f3EditTree = f3Chart
-        .editTree()
-        .fixed(true)
-        .setFields(["first name", "last name", "birthday", "avatar"])
-        .setEditFirst(false);
-
       f3Card.setOnCardClick((e, d) => {
-        if (f3EditTree.isAddingRelative()) return;
         f3Card.onCardClickDefault(e, d);
+        // updateStyle(isCircle);
       });
+
+      chartRef.current = f3Chart;
+      cardRef.current = f3Card;
 
       f3Chart.updateTree({ initial: true });
     };
 
     create(data);
-  }, [currUser, isCircle]);
+  }, [currUser]);
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    if (!cardRef.current) return
+
+    const style = isCircle ? "imageCircle":"imageRect"
+    cardRef.current.setStyle(style)
+    chartRef.current.updateTree({})
+
+    // updateStyle(isCircle);
+  }, [isCircle]);
 
   return (
     <div className="w-full h-full">
