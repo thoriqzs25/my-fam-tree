@@ -9,7 +9,7 @@ const FamilyTree = ({ data, isCircle, cardRef }) => {
 
   const cont = useRef(null);
   const chartRef = useRef(null);
-  const useAuth = false;
+  const useAuth = true;
 
   // const updateStyle = (circle) => {
   //   const cards = document.querySelectorAll(".card-inner");
