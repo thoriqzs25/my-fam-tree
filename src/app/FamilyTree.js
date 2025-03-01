@@ -65,9 +65,6 @@ const FamilyTree = ({ data }) => {
       });
 
       f3Chart.updateTree({ initial: true });
-      // f3EditTree.open(f3Chart.getMainDatum());
-
-      f3Chart.updateTree({ initial: true });
     };
 
     create(data);
@@ -78,14 +75,13 @@ const FamilyTree = ({ data }) => {
       {currUser === null ? (
         <Auth
           onAuthSuccess={(user) => {
-            // console.log("user", user, user.data["first name"]);
             setUser(user);
           }}
           data={data}
         />
       ) : (
         <div
-          className="f3 w-full h-full text-white"
+          className="f3 w-full h-full"
           id="FamilyChart"
           ref={cont}
         ></div>

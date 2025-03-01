@@ -4,25 +4,25 @@ const Auth = ({ onAuthSuccess, data }) => {
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [error, setError] = useState("");
-  const [ip, setIp] = useState("Unknown IP")
-  const [concurrentAttempt, setAttempt] = useState(1)
+  const [ip, setIp] = useState("Unknown IP");
+  const [concurrentAttempt, setAttempt] = useState(1);
 
   useEffect(() => {
     fetch("https://api.ipify.org?format=json")
-    .then((res) => res.json())
-    .then((data) => setIp(data.ip))
-    .catch(() => setIp("Failed to get IP"));
-  }, [])
+      .then((res) => res.json())
+      .then((data) => setIp(data.ip))
+      .catch(() => setIp("Failed to get IP"));
+  }, []);
 
   const logAttempt = async (username, attempt) => {
-    // fetch(
-    //   `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
-    //     username
-    //   )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
-    // )
-    //   .then((res) => res.text())
-    //   .then((data) => console.log("Logging Attempt: ", data))
-    //   .catch((err) => console.error("Logging Error: ", err));
+    fetch(
+      `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
+        username
+      )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
+    )
+      .then((res) => res.text())
+      .then((data) => console.log("Logging Attempt: ", data))
+      .catch((err) => console.error("Logging Error: ", err));
   };
 
   const handleLogin = async () => {
@@ -43,34 +43,32 @@ const Auth = ({ onAuthSuccess, data }) => {
     }
 
     if (user) {
-      const attemptInfo = `SUCCESS ${concurrentAttempt}`
+      const attemptInfo = `SUCCESS ${concurrentAttempt}`;
       setError("");
 
       onAuthSuccess(user);
       logAttempt(user.data["first name"], attemptInfo);
     } else {
-      const inputAttempt = `${name} - ${birthYear}`
-      const attemptInfo = `FAILED ${concurrentAttempt}`
+      const inputAttempt = `${name} - ${birthYear}`;
+      const attemptInfo = `FAILED ${concurrentAttempt}`;
 
       setError("Invalid name or birth year. Please try again.");
       await logAttempt(inputAttempt, attemptInfo);
 
-      setAttempt(concurrentAttempt + 1)
+      setAttempt(concurrentAttempt + 1);
     }
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center text-white">
-      <h2 className="mb-2">Autentikasi</h2>
-      <p className="mb-4">
-        "Masukin nama panggilan dan tahun kelahiran Anda"
-      </p>
+    <div className="w-full h-full flex flex-col items-center justify-center text-[var(--foreground)]">
+      <h2 className="mb-2 font-bold">Autentikasi</h2>
+      <p className="mb-4">"Masukin nama panggilan dan tahun kelahiran Anda"</p>
       <input
         type="text"
         placeholder="Nama"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="mb-2 p-2 text-black"
+        className="mb-2 p-2 rounded bg-[var(--input-bg)] text-[var(--input-text)] border border-[var(--input-border)]"
         onKeyDown={(e) => e.key === "Enter" && handleLogin()}
       />
       <input
@@ -78,10 +76,13 @@ const Auth = ({ onAuthSuccess, data }) => {
         placeholder="Tahun Lahir"
         value={birthYear}
         onChange={(e) => setBirthYear(e.target.value)}
-        className="mb-2 p-2 text-black"
+        className="mb-2 p-2 rounded bg-[var(--input-bg)] text-[var(--input-text)] border border-[var(--input-border)]"
         onKeyDown={(e) => e.key === "Enter" && handleLogin()}
       />
-      <button onClick={handleLogin} className="p-2 bg-blue-500 text-white">
+      <button
+        onClick={handleLogin}
+        className="py-2 px-4 rounded bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
+      >
         Login
       </button>
       {error && <p className="text-red-500 mt-2">{error}</p>}
