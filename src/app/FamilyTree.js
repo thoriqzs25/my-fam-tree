@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import f3 from "family-chart";
-import "family-chart/styles/family-chart.css";
 import Auth from "./Auth";
 
 const FamilyTree = ({ data }) => {
@@ -68,7 +67,23 @@ const FamilyTree = ({ data }) => {
     };
 
     create(data);
+    // updateLinkColors()
   }, [currUser]);
+
+  // const updateLinkColors = () => {
+  //   const theme = document.documentElement.getAttribute("data-theme");
+  //   const strokeColor = theme === "dark" ? "#ffffff" : "#555555";
+  
+  //   document.querySelectorAll(".links_view .link").forEach((link) => {
+  //     link.setAttribute("stroke", strokeColor);
+  //   });
+  
+  //   document.querySelectorAll(".links_view .link").forEach(link => {
+  //     link.style.stroke = "var(--foreground-color)";
+  //   });
+  // };
+  
+  // document.addEventListener("DOMContentLoaded", updateLinkColors);
 
   return (
     <div className="w-full h-full">

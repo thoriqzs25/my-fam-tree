@@ -1,10 +1,12 @@
+@import "./custom-f3.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --font-geist-sans: 'Geist Sans', sans-serif;
-  --background: #d9dada;
+  --background: #bec1c1;
   --foreground: #000000;
   --input-bg: #f0f0f0;
   --input-text: #333;

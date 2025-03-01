@@ -1,7 +1,7 @@
 import FamilyTree from "./FamilyTree";
 import fs from "fs";
 import path from "path";
-import Theme from "./Theme";
+import Header from "./Header";
 
 export default function Home() {
   const filePath = path.join(process.cwd(), "data.json");
@@ -14,11 +14,8 @@ export default function Home() {
           Sign in with Google
         </button> */}
 
-        <div className="flex-col items-start justify-start p-4 border-b-2 drop-shadow-lg bg-[var(--input-bg)]">
-          <p className="font-bold">v0.0.3</p>
-          <p className="text-xs mb-2">Last updated: 1 Mar 11.33</p>
-          <Theme />
-        </div>
+        
+       <Header/>
         <FamilyTree data={data} />
       </main>
     </div>
