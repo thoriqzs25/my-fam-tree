@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import f3 from "family-chart";
 import Auth from "./Auth";
 
-const FamilyTree = ({ data }) => {
+const FamilyTree = ({ data, isCircle }) => {
   const [currUser, setUser] = useState(null);
   const cont = useRef(null);
 
@@ -43,12 +43,13 @@ const FamilyTree = ({ data }) => {
         .setOrientationVertical()
         .setSingleParentEmptyCard(true, { label: "ADD" });
 
+      const imageStyle = isCircle?"imageCircle":"imageRect"
       const f3Card = f3Chart
         .setCard(f3.CardHtml)
         .setCardDisplay([["first name", "last name"], ["birthday"]])
         .setCardDim({})
         .setMiniTree(true)
-        .setStyle("imageRect")
+        .setStyle(imageStyle)
         .setOnHoverPathToMain();
 
       const f3EditTree = f3Chart
@@ -58,7 +59,6 @@ const FamilyTree = ({ data }) => {
         .setEditFirst(false);
 
       f3Card.setOnCardClick((e, d) => {
-        // f3EditTree.open(d);
         if (f3EditTree.isAddingRelative()) return;
         f3Card.onCardClickDefault(e, d);
       });
@@ -67,23 +67,7 @@ const FamilyTree = ({ data }) => {
     };
 
     create(data);
-    // updateLinkColors()
-  }, [currUser]);
-
-  // const updateLinkColors = () => {
-  //   const theme = document.documentElement.getAttribute("data-theme");
-  //   const strokeColor = theme === "dark" ? "#ffffff" : "#555555";
-  
-  //   document.querySelectorAll(".links_view .link").forEach((link) => {
-  //     link.setAttribute("stroke", strokeColor);
-  //   });
-  
-  //   document.querySelectorAll(".links_view .link").forEach(link => {
-  //     link.style.stroke = "var(--foreground-color)";
-  //   });
-  // };
-  
-  // document.addEventListener("DOMContentLoaded", updateLinkColors);
+  }, [currUser, isCircle]);
 
   return (
     <div className="w-full h-full">

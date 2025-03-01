@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Header from "./Header"
-import FamilyTree from "./FamilyTree"
+import { useState } from "react";
+import Header from "./Header";
+import FamilyTree from "./FamilyTree";
 
-const Content = ({data}) => {
-  const [imgStyle, setStyle] = useState("imageRect")
+const Content = ({ data }) => {
+  const [circleStyle, setStyle] = useState(false);
 
   return (
-      <main classname="flex-col justify-center items-center w-full h-[100vh]">
-        <Header onStyleChange={setStyle} />
-        <FamilyTree data={data} imagestyle={imgStyle} />
-      </main>
+    <>
+      <Header isCircle={circleStyle} setCircle={setStyle} />
+      <FamilyTree data={data} isCircle={circleStyle} />
+    </>
+  );
+};
 
-  )
-}
-
-export default Content
+export default Content;

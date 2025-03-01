@@ -1,16 +1,16 @@
-"use client"
-
 import { useState } from "react";
 import Theme from "./Theme";
 
-const Header = () => {
+const Header = ({ isCircle, setCircle }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   return (
     <>
       <div
         className={`fixed w-full top-0 z-50 transition-transform duration-300 ${
-          isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-100"
+          isVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0"
         }`}
       >
         <div className="hidden sm:block">
@@ -21,16 +21,29 @@ const Header = () => {
         </div>
       </div>
 
-      <button
-        onClick={() => setIsVisible(!isVisible)}
-        className={`fixed !z-10 bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 ${
-          isVisible
-            ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
-            : "bg-gray-600 text-white opacity-70 hover:opacity-100"
-        }`}
-      >
-        {isVisible ? "▲ Hide" : "▼ Show"}
-      </button>
+      <div className="fixed bottom-6 right-6 flex flex-col justify-end gap-1 z-50">
+        <button
+          onClick={() => setIsVisible(!isVisible)}
+          className={`p-2 shadow-lg transition-all duration-300 rounded-full ${
+            isVisible
+              ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
+              : "bg-gray-600 text-white opacity-70 hover:opacity-100"
+          }`}
+        >
+          {isVisible ? "▲ Hide" : "▼ Show"}
+        </button>
+
+        <button
+          onClick={() => setCircle(!isCircle)}
+          className={`p-2 shadow-lg transition-all duration-300 rounded-full ${
+            isCircle
+              ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
+              : "bg-gray-600 text-white opacity-70 hover:opacity-100"
+          }`}
+        >
+          {!isCircle ? "⬛ Square" : "⚫ Circle"}
+        </button>
+      </div>
     </>
   );
 };

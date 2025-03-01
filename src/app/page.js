@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
-import FamilyTree from "./FamilyTree";
-import Header from "./Header";
+import Content from "./Content";
 
 export default function Home() {
   const filePath = path.join(process.cwd(), "data.json");
@@ -10,8 +9,7 @@ export default function Home() {
   return (
     <div className="items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <main className="flex-col justify-center items-center w-full h-[100vh]">
-        <Header />
-        <FamilyTree data={data} />
+        <Content data={data}/>
       </main>
     </div>
   );
