@@ -58,9 +58,9 @@ const Auth = ({ onAuthSuccess, data }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center text-[var(--foreground)]">
-      <h2 className="mb-2 font-bold">Autentikasi</h2>
-      <p className="mb-4">"Masukin nama panggilan dan tahun kelahiran Anda"</p>
+    <div className="w-full h-full flex flex-col items-center justify-center text-[var(--foreground)] pt-36">
+      <h2 className="mb-2 font-bold text-xl">Autentikasi</h2>
+      <p className="mb-4 px-4 text-center">"Masukin nama panggilan dan tahun kelahiran Anda"</p>
       <input
         type="text"
         placeholder="Nama"
@@ -70,7 +70,8 @@ const Auth = ({ onAuthSuccess, data }) => {
         onKeyDown={(e) => e.key === "Enter" && handleLogin()}
       />
       <input
-        type="text"
+        type="number"
+        inputMode="numeric"
         placeholder="Tahun Lahir"
         value={birthYear}
         onChange={(e) => setBirthYear(e.target.value)}
