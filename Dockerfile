@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies and cache them
-RUN npm ci
+RUN npm ci --only=production
 
 # Copy only necessary files (avoiding unnecessary invalidation of cache)
 COPY . .

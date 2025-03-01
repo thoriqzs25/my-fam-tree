@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 
 const Auth = ({ onAuthSuccess, data }) => {
@@ -5,6 +7,7 @@ const Auth = ({ onAuthSuccess, data }) => {
   const [birthYear, setBirthYear] = useState("");
   const [error, setError] = useState("");
   const [ip, setIp] = useState("Unknown IP");
+  const [userAgent, setUserAgent] = useState("Unknown User-Agent");
   const [concurrentAttempt, setAttempt] = useState(1);
 
   useEffect(() => {
@@ -12,15 +15,20 @@ const Auth = ({ onAuthSuccess, data }) => {
       .then((res) => res.json())
       .then((data) => setIp(data.ip))
       .catch(() => setIp("Failed to get IP"));
+
+    if (typeof window !== "undefined") {
+      setUserAgent(navigator.userAgent);
+    }
   }, []);
 
   const logAttempt = async (username, attempt) => {
     fetch(
       `https://script.google.com/macros/s/AKfycbxmhkub77vMsOOZHpRSOGB5MEZHIYZAOahJFWyz6x37RWVisX6oTXyg8IJxDKD1qv1-gA/exec?username=${encodeURIComponent(
         username
-      )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
-    )
-      .then((res) => res.text())
+      )}&attempt=${attempt}&ip=${encodeURIComponent(
+        ip
+      )}&userAgent=${encodeURIComponent(userAgent)}`
+    ).then((res) => res.text());
   };
 
   const handleLogin = async () => {
@@ -60,7 +68,9 @@ const Auth = ({ onAuthSuccess, data }) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center text-[var(--foreground)] pt-36">
       <h2 className="mb-2 font-bold text-xl">Autentikasi</h2>
-      <p className="mb-4 px-4 text-center">"Masukin nama panggilan dan tahun kelahiran Anda"</p>
+      <p className="mb-4 px-4 text-center">
+        "Masukin nama panggilan dan tahun kelahiran Anda"
+      </p>
       <input
         type="text"
         placeholder="Nama"
