@@ -21,8 +21,6 @@ const Auth = ({ onAuthSuccess, data }) => {
       )}&attempt=${attempt}&ip=${encodeURIComponent(ip)}`
     )
       .then((res) => res.text())
-      .then((data) => console.log("Logging Attempt: ", data))
-      .catch((err) => console.error("Logging Error: ", err));
   };
 
   const handleLogin = async () => {
