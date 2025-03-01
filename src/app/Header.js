@@ -81,8 +81,8 @@ const Mobile = () => {
 const Version = () => {
   return (
     <div>
-      <p className="font-bold">v0.0.4</p>
-      <p className="text-xs mb-2">Last updated: 01 Mar 14.12</p>
+      <p className="font-bold">v0.0.5</p>
+      <p className="text-xs mb-2">Last updated: 01 Mar 15.02</p>
     </div>
   );
 };

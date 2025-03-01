@@ -7,6 +7,7 @@ import Auth from "./Auth";
 const FamilyTree = ({ data, isCircle }) => {
   const [currUser, setUser] = useState(null);
   const cont = useRef(null);
+  const useAuth = false;
 
   useEffect(() => {
     if (!cont.current) return;
@@ -35,6 +36,11 @@ const FamilyTree = ({ data, isCircle }) => {
         }
       }
 
+      const existingChart = document.querySelector("#FamilyChart")
+      if (existingChart) {
+        existingChart.innerHTML = ""
+      }
+
       const f3Chart = f3
         .createChart("#FamilyChart", data)
         .setTransitionTime(1000)
@@ -43,7 +49,7 @@ const FamilyTree = ({ data, isCircle }) => {
         .setOrientationVertical()
         .setSingleParentEmptyCard(true, { label: "ADD" });
 
-      const imageStyle = isCircle?"imageCircle":"imageRect"
+      const imageStyle = isCircle ? "imageCircle" : "imageRect";
       const f3Card = f3Chart
         .setCard(f3.CardHtml)
         .setCardDisplay([["first name", "last name"], ["birthday"]])
@@ -71,7 +77,7 @@ const FamilyTree = ({ data, isCircle }) => {
 
   return (
     <div className="w-full h-full">
-      {currUser === null ? (
+      {useAuth && currUser === null ? (
         <Auth
           onAuthSuccess={(user) => {
             setUser(user);
@@ -79,11 +85,7 @@ const FamilyTree = ({ data, isCircle }) => {
           data={data}
         />
       ) : (
-        <div
-          className="f3 w-full h-full"
-          id="FamilyChart"
-          ref={cont}
-        ></div>
+        <div className="f3 w-full h-full" id="FamilyChart" ref={cont}></div>
       )}
     </div>
   );
