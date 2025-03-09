@@ -86,7 +86,7 @@ const Version = () => {
   return (
     <div>
       <p className="font-bold">v0.0.7</p>
-      <p className="text-xs mb-2">Last updated: 09 Mar 14.49</p>
+      <p className="text-xs mb-2">Last updated: 09 Mar 15.24</p>
     </div>
   );
 };
