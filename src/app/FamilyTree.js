@@ -126,19 +126,21 @@ const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
         <div className="f3 w-full h-full" id="FamilyChart" ref={cont}></div>
       )}
 
-      <AnimatePresence>
-        {showInstruction && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="absolute top-40 m-auto left-0 right-0 w-64 bg-black z-10 text-white justify-center px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow-lg whitespace-nowrap"
+      {(!useAuth || currUser !== null) && (
+        <AnimatePresence>
+          {showInstruction && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="absolute top-64 sm:top-40 m-auto left-0 right-0 w-64 bg-black z-10 text-white justify-center px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow-lg whitespace-nowrap"
             >
-            <span className="text-xl">🤏</span> Klik/Geser untuk Zoom
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <span className="text-xl">🤏</span> Klik/Geser untuk Zoom
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </div>
   );
 };
