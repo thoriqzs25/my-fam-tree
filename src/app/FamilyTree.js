@@ -1,28 +1,17 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import f3 from "family-chart";
 import Auth from "./Auth";
 
 const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
   const [currUser, setUser] = useState(null);
+  const [showInstruction, setShowInstruction] = useState(true); // Show initially
 
   const cont = useRef(null);
   const chartRef = useRef(null);
   const useAuth = true;
-
-  // const updateStyle = (circle) => {
-  //   const cards = document.querySelectorAll(".card-inner");
-  //   cards.forEach((card) => {
-  //     if (circle) {
-  //       card.classList.remove("card-image-rect");
-  //       card.classList.add("card-image-circle");
-  //     } else {
-  //       card.classList.remove("card-image-circle");
-  //       card.classList.add("card-image-rect");
-  //     }
-  //   }); weilerwuoi fsdkuijhsdfj
-  // };
 
   useEffect(() => {
     if (!cont.current) return;
@@ -85,7 +74,6 @@ const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
 
       f3Card.setOnCardClick((e, d) => {
         f3Card.onCardClickDefault(e, d);
-        // updateStyle(isCircle);
       });
 
       chartRef.current = f3Chart;
@@ -95,6 +83,13 @@ const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
     };
 
     create(data);
+
+    // Automatically hide the instruction after 5 seconds
+    const timeout = setTimeout(() => {
+      setShowInstruction(false);
+    }, 5000);
+
+    return () => clearTimeout(timeout);
   }, [currUser]);
 
   useEffect(() => {
@@ -119,7 +114,7 @@ const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
   }, [isHorizontal]);
 
   return (
-    <div className="w-full h-full">
+    <div className="relative w-full h-full">
       {useAuth && currUser === null ? (
         <Auth
           onAuthSuccess={(user) => {
@@ -130,6 +125,20 @@ const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
       ) : (
         <div className="f3 w-full h-full" id="FamilyChart" ref={cont}></div>
       )}
+
+      <AnimatePresence>
+        {showInstruction && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute top-40 m-auto left-0 right-0 w-64 bg-black z-10 text-white justify-center px-4 py-2 rounded-lg text-sm flex items-center gap-2 shadow-lg whitespace-nowrap"
+            >
+            <span className="text-xl">🤏</span> Klik/Geser untuk Zoom
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
