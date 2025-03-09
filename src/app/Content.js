@@ -6,28 +6,14 @@ import FamilyTree from "./FamilyTree";
 
 const Content = ({ data }) => {
   const [circleStyle, setStyle] = useState(false);
+  const [horizontal, setHorizontal] = useState(false);
 
   const cardRef = useRef(null);
 
-  const changeStyle = (isCircle) => {
-    // if (cardRef.current) {
-    //   cardRef.current.setOnCardClick(null);
-
-    //   cardRef.current.setOnCardClick((e, d) => {
-    //     const style = isCircle ? "imageCircle" : "imageRect";
-    //     cardRef.current.setStyle(style);
-
-    //     cardRef.current.onCardClickDefault(e, d);
-    //   });
-    // }
-
-    setStyle(isCircle);
-  };
-
   return (
     <>
-      <Header isCircle={circleStyle} setCircle={changeStyle} />
-      <FamilyTree data={data} isCircle={circleStyle} cardRef={cardRef} />
+      <Header isCircle={circleStyle} setCircle={setStyle} isHorizontal={horizontal} setHorizontal={setHorizontal} />
+      <FamilyTree data={data} isCircle={circleStyle} cardRef={cardRef} isHorizontal={horizontal} />
     </>
   );
 };

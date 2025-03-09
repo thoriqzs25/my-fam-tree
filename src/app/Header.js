@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Theme from "./Theme";
 
-const Header = ({ isCircle, setCircle }) => {
+const Header = ({ isCircle, setCircle, isHorizontal, setHorizontal }) => {
   const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 640;
+    if (isMobile) {
+      setHorizontal(true);
+    }
+  }, []);
 
   return (
     <>
@@ -22,27 +29,24 @@ const Header = ({ isCircle, setCircle }) => {
       </div>
 
       <div className="fixed bottom-6 right-6 flex flex-col justify-end gap-1 z-50">
-        <button
-          onClick={() => setIsVisible(!isVisible)}
-          className={`p-2 shadow-lg transition-all duration-300 rounded-full ${
-            isVisible
-              ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
-              : "bg-gray-600 text-white opacity-70 hover:opacity-100"
-          }`}
-        >
-          {isVisible ? "▲ Hide" : "▼ Show"}
-        </button>
-
-        <button
-          onClick={() => setCircle(!isCircle)}
-          className={`p-2 shadow-lg transition-all duration-300 rounded-full ${
-            isCircle
-              ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
-              : "bg-gray-600 text-white opacity-70 hover:opacity-100"
-          }`}
-        >
-          {isCircle ? "⬛ Square" : "⚫ Circle"}
-        </button>
+        <ToggleButton
+          state={isVisible}
+          setState={setIsVisible}
+          trueLabel="▼ Shown"
+          falseLabel="▲ Hidden"
+        />
+        <ToggleButton
+          state={isCircle}
+          setState={setCircle}
+          trueLabel="⚫ Circle"
+          falseLabel="⬛ Square"
+        />
+        <ToggleButton
+          state={isHorizontal}
+          setState={setHorizontal}
+          trueLabel="↕ Vertical"
+          falseLabel="↔ Horizontal"
+        />
       </div>
     </>
   );
@@ -81,9 +85,30 @@ const Mobile = () => {
 const Version = () => {
   return (
     <div>
-      <p className="font-bold">v0.0.6</p>
-      <p className="text-xs mb-2">Last updated: 01 Mar 19.15</p>
+      <p className="font-bold">v0.0.7</p>
+      <p className="text-xs mb-2">Last updated: 09 Mar 14.49</p>
     </div>
+  );
+};
+
+const ToggleButton = ({
+  state,
+  setState,
+  trueLabel,
+  falseLabel,
+  className,
+}) => {
+  return (
+    <button
+      onClick={() => setState(!state)}
+      className={`p-2 shadow-lg transition-all duration-300 rounded-full ${
+        state
+          ? "bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)]"
+          : "bg-gray-600 text-white opacity-70 hover:opacity-100"
+      } ${className}`}
+    >
+      {state ? trueLabel : falseLabel}
+    </button>
   );
 };
 

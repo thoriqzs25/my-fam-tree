@@ -4,12 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import f3 from "family-chart";
 import Auth from "./Auth";
 
-const FamilyTree = ({ data, isCircle, cardRef }) => {
+const FamilyTree = ({ data, isCircle, cardRef, isHorizontal }) => {
   const [currUser, setUser] = useState(null);
 
   const cont = useRef(null);
   const chartRef = useRef(null);
-  const useAuth = true;
+  const useAuth = false;
 
   // const updateStyle = (circle) => {
   //   const cards = document.querySelectorAll(".card-inner");
@@ -21,7 +21,7 @@ const FamilyTree = ({ data, isCircle, cardRef }) => {
   //       card.classList.remove("card-image-circle");
   //       card.classList.add("card-image-rect");
   //     }
-  //   });
+  //   }); weilerwuoi fsdkuijhsdfj
   // };
 
   useEffect(() => {
@@ -51,6 +51,16 @@ const FamilyTree = ({ data, isCircle, cardRef }) => {
         }
       }
 
+      data.forEach((person) => {
+        if (person.data.avatar && person.data.avatar.startsWith("/photos/")) {
+          const img = new Image();
+          img.src = person.data.avatar;
+          img.onerror = () => {
+            person.data.avatar = "";
+          };
+        }
+      });
+
       const existingChart = document.querySelector("#FamilyChart");
       if (existingChart) {
         existingChart.innerHTML = "";
@@ -58,10 +68,10 @@ const FamilyTree = ({ data, isCircle, cardRef }) => {
 
       const f3Chart = f3
         .createChart("#FamilyChart", data)
-        .setTransitionTime(1000)
+        .setTransitionTime(600)
         .setCardXSpacing(250)
         .setCardYSpacing(150)
-        .setOrientationVertical()
+        .setOrientationHorizontal()
         .setSingleParentEmptyCard(true, { label: "ADD" });
 
       const imageStyle = isCircle ? "imageCircle" : "imageRect";
@@ -88,15 +98,25 @@ const FamilyTree = ({ data, isCircle, cardRef }) => {
   }, [currUser]);
 
   useEffect(() => {
-    if (!chartRef.current) return
-    if (!cardRef.current) return
+    if (!chartRef.current) return;
+    if (!cardRef.current) return;
 
-    const style = isCircle ? "imageCircle":"imageRect"
-    cardRef.current.setStyle(style)
-    chartRef.current.updateTree({})
-
-    // updateStyle(isCircle);
+    const style = isCircle ? "imageCircle" : "imageRect";
+    cardRef.current.setStyle(style);
+    chartRef.current.updateTree({});
   }, [isCircle]);
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    if (isHorizontal) {
+      chartRef.current.setOrientationHorizontal();
+    } else {
+      chartRef.current.setOrientationVertical();
+    }
+
+    chartRef.current.updateTree({});
+  }, [isHorizontal]);
 
   return (
     <div className="w-full h-full">
